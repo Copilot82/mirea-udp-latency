@@ -83,3 +83,18 @@ TEST_CASE("Integer helpers are big endian and failed reads do not advance") {
     CHECK_FALSE(ReadU16(cursor, end));
     CHECK(cursor == end);
 }
+
+TEST_CASE("Cross type parsing and reversed server timestamps are rejected") {
+    PacketHeader h{};
+    auto ping = SerializePing(0, 0);
+    auto pong = SerializePong(0, {0, 10, 9});
+    CHECK_FALSE(ParsePong(ping.data(), ping.size(), h));
+    CHECK_FALSE(ParsePing(pong.data(), pong.size(), h));
+    CHECK_FALSE(ParsePong(pong.data(), pong.size(), h));
+    auto valid = SerializePong(0, {0, 0, 0});
+    REQUIRE(ParsePong(valid.data(), valid.size(), h));
+    CHECK(h.sequenceNumber == 0);
+    const std::uint8_t* empty = nullptr;
+    CHECK_FALSE(ReadU16(empty, nullptr));
+    CHECK_FALSE(ReadU64(empty, nullptr));
+}

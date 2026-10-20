@@ -6,3 +6,5 @@
 - Catch2 download changed from full Git clone to SHA256-pinned v3.5.2 archive.
 - Working tree is an isolated new clone; existing PR1 files remain outside it.
 - User explicitly selected GitHub/GitLab instead of GitVerse; imported original history.
+- Integration RED: skeleton exits before READY. Implemented RAII UDP, CSV and event loops.
+- macOS UDP send buffer rejected a 65507-byte fixture; replaced real-network oversize fixture with 8192 bytes. Parser still handles full datagram lengths.

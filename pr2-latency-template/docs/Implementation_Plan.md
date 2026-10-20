@@ -35,10 +35,10 @@ DrainEvents(), Summary(), FindRecord(); retain original two-argument OnPong.
 
 Files: include/transport, src/transport.cpp, include/app, client/server, integration test.
 Interfaces: Endpoint, UdpSocket::SendTo/Receive, NowUs; positional CLI in README.
-- [ ] Write subprocess tests for malformed/foreign packets, late/duplicate,
+- [x] Write subprocess tests for malformed/foreign packets, late/duplicate,
       no server, overlapping delayed responses, invalid CLI.
-- [ ] Run against skeleton; implement RAII socket, event loops and CSV.
-- [ ] Validate bounds, output failures, bounded delayed queue and shutdown.
+- [x] Run against skeleton; implement RAII socket, event loops and CSV.
+- [x] Validate bounds, output failures, bounded delayed queue and shutdown.
 - [ ] Run Debug/Release and sanitizers; commit.
 
 ## Task 4: measured artifacts and delivery
