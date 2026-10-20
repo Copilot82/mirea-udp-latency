@@ -1,22 +1,82 @@
-# Спецификация протокола (заполняется студентом)
+# Спецификация протокола v1
 
-## Формат заголовка
+## Формат датаграммы
 
-| Поле | Тип | Байты | Описание |
-|---|---|---|---|
-| packetType | uint8_t | 1 | |
-| sequenceNumber | uint16_t | 2 | |
-| payloadSize | uint16_t | 2 | |
-| protocolVersion | uint16_t | 2 | |
+Бинарный заголовок занимает ровно 7 байт, без padding. Многобайтовые числа
+передаются big-endian (сетевой порядок). Структуры не копируются через memcpy.
 
-## PING
+| Смещение | Поле | Тип | Размер |
+|---:|---|---|---:|
+| 0 | packetType | uint8 | 1 |
+| 1 | sequenceNumber | uint16 | 2 |
+| 3 | payloadSize | uint16 | 2 |
+| 5 | protocolVersion = 1 | uint16 | 2 |
+| 7 | payload | по типу | payloadSize |
 
-Опишите поля полезной нагрузки, единицы измерения времени, порядок байт.
+| Тип | Код | Payload | Полная длина |
+|---|---:|---|---:|
+| PING | 1 | clientSendTimeUs: uint64 | 15 |
+| PONG | 2 | clientSendTimeUs, serverReceiveTimeUs, serverSendTimeUs: 3 × uint64 | 31 |
+| MOVEMENT | 3 | 8 байт данных команды; в этой работе только валидация/логирование | 15 |
+| SHOOT | 4 | пусто; в этой работе только логирование | 7 |
 
-## PONG
+Времена — микросекунды steady_clock относительно неопределённой монотонной
+эпохи на соответствующем компьютере. RTT = clientReceiveUs-clientSendUs;
+серверные часы в RTT не участвуют. Их разность показывает время обработки.
 
-Опишите поля полезной нагрузки и то, как они используются при расчёте RTT.
+Пример PING sequence=0x1234, time=0x0102030405060708:
+`01 12 34 00 08 00 01 01 02 03 04 05 06 07 08`.
 
-## Коды ошибок / причины отбрасывания пакета
+## Валидация
 
-Опишите, какие проверки выполняет ParsePing/ParsePong и что происходит при их провале.
+До чтения payload проверяются: ненулевой указатель и минимум 7 байт,
+известный packetType, protocolVersion=1, точная ожидаемая длина payload,
+полное совпадение длины датаграммы с 7+payloadSize. Лишние байты запрещены.
+ReadU16/ReadU64 работают только внутри переданного диапазона одного буфера;
+при нехватке байт возвращают nullopt и не сдвигают cursor.
+ParsePing/ParsePong возвращают nullopt; outHeader при ошибке не меняется.
+PONG дополнительно требует serverSendTimeUs >= serverReceiveTimeUs.
+
+Сервер отбрасывает неверные датаграммы и пишет invalid_packet с причиной:
+short_header, unknown_type, unsupported_version, payload_size_mismatch,
+expected_ping. Клиент принимает только PONG от настроенного IP:port;
+некорректные ответы дают invalid_response, чужой адрес — foreign_response.
+
+## Сопоставление и состояния
+
+sample — номер измерения в серии с 1; sequence — uint16 с 0 и оборотом после 65535.
+Telemetry хранит до 1024 записей: sequence, sentAtUs, experimentId, status,
+attempts=1, sample и опциональные RTT/SRTT. Повторных передач нет.
+Время регистрации должно строго увеличиваться. Ответ сопоставляется по
+sequence и echoed clientSendTimeUs; несовпадение метки не завершает запрос.
+
+```mermaid
+stateDiagram-v2
+    [*] --> pending: PING sent
+    pending --> received: valid PONG before deadline
+    pending --> timeout: age >= 1000 ms
+    timeout --> late_response: first valid late PONG
+    received --> received: duplicate_response event
+    late_response --> late_response: duplicate_response event
+```
+
+Неизвестный/вытесненный sequence даёт unknown_response. Неверная метка или
+приём раньше времени отправки даёт invalid_response. Эти события не меняют
+RTT/SRTT/jitter/loss. При позднем ответе после timeout потеря сохраняется;
+если таймер ещё не обработан, сначала создаётся timeout, затем late_response.
+Завершённые записи вытесняются в порядке регистрации; pending не вытесняется.
+Полностью занятая pending история отклоняет регистрацию исключением.
+
+## CSV
+
+Разделитель `;`, десятичная точка, шесть знаков после неё, одна строка заголовка:
+`experiment_id;sample;sequence;sent_at_ms;rtt_ms;srtt_ms;status;observed_at_ms`.
+Время относительно старта серии; только received содержит RTT/SRTT.
+На каждый успешно отправленный PING — одна итоговая received или timeout.
+Диагностические события пишутся дополнительно; sample=0 означает отсутствие
+сопоставленного измерения. CSV рассчитан на одного писателя.
+При запуске в существующий файл проверяется заголовок. Для новой серии
+используйте уникальный experiment_id, для повторного эксперимента — новую папку.
+
+Адрес по умолчанию: 127.0.0.1:27015, IPv4. Синхронизация часов, ACK,
+повторные передачи, шифрование и аутентификация не реализованы в ПР №2.

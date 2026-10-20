@@ -1,0 +1,102 @@
+READY 127.0.0.1:27015 profile=delay_100 seed=20261020 emulator=1
+ping sequence=0 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=0 received_us=1420053795 sent_us=1420154904
+ping sequence=1 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=1 received_us=1420254457 sent_us=1420354463
+ping sequence=2 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=2 received_us=1420454144 sent_us=1420554820
+ping sequence=3 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=3 received_us=1420654257 sent_us=1420755152
+ping sequence=4 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=4 received_us=1420855398 sent_us=1420956189
+ping sequence=5 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=5 received_us=1421056095 sent_us=1421157544
+ping sequence=6 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=6 received_us=1421254252 sent_us=1421355102
+ping sequence=7 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=7 received_us=1421454899 sent_us=1421555348
+ping sequence=8 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=8 received_us=1421654143 sent_us=1421754830
+ping sequence=9 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=9 received_us=1421854626 sent_us=1421954991
+ping sequence=10 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=10 received_us=1422053856 sent_us=1422154778
+ping sequence=11 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=11 received_us=1422254048 sent_us=1422356019
+ping sequence=12 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=12 received_us=1422453718 sent_us=1422555648
+ping sequence=13 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=13 received_us=1422654296 sent_us=1422755507
+ping sequence=14 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=14 received_us=1422854141 sent_us=1422955341
+ping sequence=15 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=15 received_us=1423054149 sent_us=1423155447
+ping sequence=16 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=16 received_us=1423255649 sent_us=1423356181
+ping sequence=17 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=17 received_us=1423456181 sent_us=1423557255
+ping sequence=18 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=18 received_us=1423655902 sent_us=1423757034
+ping sequence=19 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=19 received_us=1423854189 sent_us=1423954778
+ping sequence=20 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=20 received_us=1424054798 sent_us=1424156161
+ping sequence=21 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=21 received_us=1424253743 sent_us=1424354833
+ping sequence=22 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=22 received_us=1424453849 sent_us=1424555164
+ping sequence=23 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=23 received_us=1424654161 sent_us=1424755356
+ping sequence=24 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=24 received_us=1424854265 sent_us=1424954872
+ping sequence=25 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=25 received_us=1425053894 sent_us=1425155457
+ping sequence=26 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=26 received_us=1425254151 sent_us=1425354953
+ping sequence=27 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=27 received_us=1425454850 sent_us=1425555286
+ping sequence=28 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=28 received_us=1425653847 sent_us=1425754974
+ping sequence=29 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=29 received_us=1425853834 sent_us=1425954020
+ping sequence=30 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=30 received_us=1426054251 sent_us=1426155290
+ping sequence=31 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=31 received_us=1426254449 sent_us=1426355828
+ping sequence=32 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=32 received_us=1426453835 sent_us=1426555049
+ping sequence=33 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=33 received_us=1426655267 sent_us=1426755847
+ping sequence=34 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=34 received_us=1426855200 sent_us=1426955708
+ping sequence=35 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=35 received_us=1427053784 sent_us=1427155008
+ping sequence=36 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=36 received_us=1427254498 sent_us=1427354855
+ping sequence=37 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=37 received_us=1427453834 sent_us=1427554333
+ping sequence=38 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=38 received_us=1427654870 sent_us=1427755486
+ping sequence=39 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=39 received_us=1427854257 sent_us=1427956012
+ping sequence=40 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=40 received_us=1428053743 sent_us=1428154845
+ping sequence=41 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=41 received_us=1428254670 sent_us=1428355044
+ping sequence=42 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=42 received_us=1428454150 sent_us=1428555347
+ping sequence=43 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=43 received_us=1428653820 sent_us=1428755363
+ping sequence=44 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=44 received_us=1428855204 sent_us=1428957713
+ping sequence=45 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=45 received_us=1429056094 sent_us=1429156821
+ping sequence=46 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=46 received_us=1429255875 sent_us=1429357190
+ping sequence=47 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=47 received_us=1429456083 sent_us=1429556806
+ping sequence=48 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=48 received_us=1429654749 sent_us=1429756521
+ping sequence=49 peer=127.0.0.1:51775 drop=0 delay_us=100000
+pong sequence=49 received_us=1429855377 sent_us=1429956034
+STOP queued=0

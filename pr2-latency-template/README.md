@@ -1,76 +1,71 @@
-# Шаблон практической работы №2 — измерение RTT в UDP-протоколе
+# ПР №2: телеметрия UDP
 
-Этот репозиторий — стартовый шаблон. Он **не является готовым решением**. Все функции с
-комментарием `// TODO(student):` необходимо реализовать самостоятельно, иначе программа
-не соберётся или не будет проходить тесты.
+C++17 UDP-клиент/сервер: PING/PONG, RTT/SRTT, джиттер, потери,
+обработка неверных, повторных и поздних ответов. [Коротко для защиты](docs/Defense_Guide.md).
 
-## Что уже есть
+## Быстрый запуск
 
-- Каркас проекта на CMake (`CMakeLists.txt`).
-- Заголовки протокола `include/protocol/*.hpp` с описанием формата пакетов `PING`/`PONG`,
-  `MOVEMENT`, `SHOOT` (из ПР №1) и заглушками функций сериализации.
-- Заголовок `include/telemetry/telemetry.hpp` с описанием класса учёта RTT/SRTT/джиттера
-  и заглушками методов.
-- `src/server_main.cpp` и `src/client_main.cpp` — точки входа с TODO по сетевой части.
-- `tests/` — заготовка модульных тестов на Catch2 (доступен через CMake FetchContent).
-- `docs/` — шаблоны отчётных файлов `Protocol_Specification.md`, `Experiment_Config.md`,
-  `Latency_Report.md`.
-
-## Что нужно сделать
-
-1. Реализовать функции в `src/protocol.cpp`: сериализацию/десериализацию `PING`, `PONG`
-   и заголовка пакета с валидацией длины, версии и типа.
-2. Реализовать класс `Telemetry` в `src/telemetry.cpp`: учёт `inFlight`, расчёт RTT, SRTT,
-   джиттера, обработку тайм-аутов, дублей и запоздалых ответов.
-3. Дописать сетевую часть в `src/server_main.cpp` (bind, recvfrom, обработка пакетов,
-   логирование) и `src/client_main.cpp` (отправка PING с интервалом, приём PONG, запись
-   в CSV).
-4. Заполнить тесты в `tests/test_protocol.cpp` и `tests/test_telemetry.cpp` — часть тестов
-   уже написана и должна проходить после реализации; часть помечена `TODO(student)`
-   и должна быть дописана.
-5. Заполнить документы в `docs/` по результатам экспериментов.
-
-## Сборка
+Нужны CMake >=3.16, C++17 и Python >=3.8 для тестов. Catch2 скачивается
+при первой сборке с проверкой SHA256; приложения не требуют сторонних сетевых библиотек.
 
 ```bash
-git clone <ссылка на форк вашего репозитория>
-cd pr2-latency-template
-cmake -S . -B build
-cmake --build build
-ctest --test-dir build
+cmake -S . -B build-release -DCMAKE_BUILD_TYPE=Release
+cmake --build build-release --parallel
+ctest --test-dir build-release --output-on-failure
 ```
 
-## Структура
+В разных терминалах:
+
+```bash
+./build-release/server 127.0.0.1 27015 baseline 20261020
+./build-release/client 127.0.0.1 27015 baseline_manual 50 200 docs/manual.csv
+```
+
+Windows/Visual Studio: добавить `--config Release` при сборке,
+`-C Release` при ctest; исполняемые файлы находятся в build-release/Release/*.exe.
+Завершение сервера: Ctrl+C.
+
+## Аргументы
 
 ```text
-pr2-latency-template/
-├── CMakeLists.txt
-├── README.md
-├── include/
-│   ├── protocol/packet.hpp
-│   └── telemetry/telemetry.hpp
-├── src/
-│   ├── protocol.cpp
-│   ├── telemetry.cpp
-│   ├── client_main.cpp
-│   └── server_main.cpp
-├── tests/
-│   ├── CMakeLists.txt
-│   ├── test_protocol.cpp
-│   └── test_telemetry.cpp
-└── docs/
-    ├── Protocol_Specification.md
-    ├── Experiment_Config.md
-    └── Latency_Report.md
+server [BIND_IP=127.0.0.1] [PORT=27015] [PROFILE=baseline] [SEED=20261020]
+client IP PORT EXPERIMENT COUNT INTERVAL_MS [CSV=docs/latency_samples.csv] [TIMEOUT_MS=1000] [GRACE_MS=200]
 ```
 
-## Порядок работы в GitVerse
+Числовой IPv4, порт клиента 1..65535; порт сервера 0 выделяет свободный порт.
+COUNT 1..1000000; INTERVAL_MS 1..60000; TIMEOUT_MS 1..60000; GRACE_MS 0..60000.
+Комбинации, требующие более 1024 одновременно ожидаемых записей, запрещены.
+ID серии: до 64 ASCII-букв/цифр/`_`/`-`. CSV — один писатель, разные ID для серий.
+Повторные отправки отсутствуют. MOVEMENT/SHOOT валидируются и логируются.
 
-1. Сделайте fork/клон репозитория в свой GitVerse-namespace.
-2. Создайте ветку `feature/latency-measurement`.
-3. Коммитьте реализацию небольшими логическими шагами.
-4. Откройте Pull Request, попросите ревью у участника команды.
-5. После ревью — merge в `main`.
+## Модули и материалы
 
-Не удаляйте комментарии `// TODO(student):` до тех пор, пока не реализуете соответствующую
-логику — они используются семинаристом при быстрой проверке прогресса.
+- protocol: [формат и валидация](docs/Protocol_Specification.md).
+- telemetry: расчёты и ограниченная история без сокетов/реальных часов.
+- transport: RAII UDP-сокет, ожидание данных и адрес отправителя.
+- [Отчёт с тремя графиками](docs/Latency_Report.md), [CSV](docs/latency_samples.csv).
+- [Параметры и воспроизведение](docs/Experiment_Config.md), [метаданные](docs/experiment_metadata.json), [логи](docs/logs/).
+- [Автоматизированное ревью и ограничения](docs/Code_Review.md).
+
+Эксперимент: 6 × 50 реальных PING через loopback, интервал 200 мс;
+baseline, delay_50, delay_100, jitter, loss_5, combined. Воздействия вводятся
+в сервере, а не сетевой ОС. Seed воспроизводит воздействия, а не точные RTT.
+
+```bash
+python3 scripts/run_experiments.py --build-dir build-release --output-dir docs/repeat
+python3 -m venv .venv
+.venv/bin/python -m pip install -r requirements-lock.txt
+.venv/bin/python scripts/analyze.py --docs-dir docs/repeat
+```
+
+Для регенерации опубликованных графиков достаточно `scripts/analyze.py`
+без --docs-dir: измерения повторно не запускаются. Минимальная зависимость
+для графиков — requirements.txt; requirements-lock.txt фиксирует измеренное окружение анализа.
+
+## Происхождение и Git-процесс
+
+Основа: [шаблон GitVerse](https://gitverse.ru/univ-mirea-iit/course-multiplayer/content/master/pr2-latency-template),
+upstream b01e060. По выбору автора импортировано на GitHub с сохранением коммита;
+это межсервисная копия, без нативной связи fork. Ветка feature/latency-measurement.
+Issues #1/#2 отражают реализацию и эксперимент; #3 — человеческое ревью.
+Автоматизированное ревью выполнено и явно отделено от ревью участника команды.

@@ -1,0 +1,150 @@
+{
+  "os": "macOS-26.4.1-arm64-arm-64bit-Mach-O",
+  "architecture": "arm64",
+  "python": "3.14.0",
+  "cmake": "cmake version 4.2.1",
+  "compiler": "Apple clang version 17.0.0 (clang-1700.6.3.2)",
+  "source_commit": "30f36b44a47613454c0176ff661d2f63dabaa58b",
+  "started_at": "2026-10-20T02:53:37.736792-07:00",
+  "server_ip": "127.0.0.1",
+  "port": 27015,
+  "count": 50,
+  "interval_ms": 200,
+  "timeout_ms": 1000,
+  "grace_ms": 200,
+  "seed": 20261020,
+  "emulator_version": 1,
+  "series": [
+    {
+      "experiment_id": "baseline",
+      "started_at": "2026-10-20T02:53:37.736896-07:00",
+      "finished_at": "2026-10-20T02:53:47.759867-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "baseline",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "baseline",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "experiment_id": "delay_50",
+      "started_at": "2026-10-20T02:53:47.760198-07:00",
+      "finished_at": "2026-10-20T02:53:57.832657-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "delay_50",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "delay_50",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "experiment_id": "delay_100",
+      "started_at": "2026-10-20T02:53:57.832928-07:00",
+      "finished_at": "2026-10-20T02:54:07.956061-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "delay_100",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "delay_100",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "experiment_id": "jitter",
+      "started_at": "2026-10-20T02:54:07.956315-07:00",
+      "finished_at": "2026-10-20T02:54:18.108862-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "jitter",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "jitter",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "experiment_id": "loss_5",
+      "started_at": "2026-10-20T02:54:18.109127-07:00",
+      "finished_at": "2026-10-20T02:54:28.129119-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "loss_5",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "loss_5",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    },
+    {
+      "experiment_id": "combined",
+      "started_at": "2026-10-20T02:54:28.129437-07:00",
+      "finished_at": "2026-10-20T02:54:38.282291-07:00",
+      "server_arguments": [
+        "127.0.0.1",
+        "27015",
+        "combined",
+        "20261020"
+      ],
+      "client_arguments": [
+        "127.0.0.1",
+        "27015",
+        "combined",
+        "50",
+        "200",
+        "<output-dir>/latency_samples.csv",
+        "1000",
+        "200"
+      ]
+    }
+  ],
+  "finished_at": "2026-10-20T02:54:38.282546-07:00",
+  "measured_binary_sha256": {
+    "server": "c2d547ce87eb4be4530b4604ba4b930147997eedbbf1b7797da57f84ed5b382d",
+    "client": "55118d7de22d5bf086084820002a8b7bfa425caa40cf70f8041b3a44e55d45e4"
+  }
+}

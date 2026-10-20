@@ -39,13 +39,13 @@ Interfaces: Endpoint, UdpSocket::SendTo/Receive, NowUs; positional CLI in README
       no server, overlapping delayed responses, invalid CLI.
 - [x] Run against skeleton; implement RAII socket, event loops and CSV.
 - [x] Validate bounds, output failures, bounded delayed queue and shutdown.
-- [ ] Run Debug/Release and sanitizers; commit.
+- [x] Run Debug/Release and sanitizers; commit.
 
 ## Task 4: measured artifacts and delivery
 
 Files: scripts/run_experiments.py, scripts/analyze.py, README.md, docs/*.
-- [ ] Run all six real series; retain CSV, raw logs and configuration JSON.
-- [ ] Independently calculate report and three figures from CSV; inspect renders.
-- [ ] Document exact wire format, environment, method and limitations.
-- [ ] Obtain independent automated review; fix substantive findings and verify.
+- [x] Run all six real series; retain CSV, raw logs and configuration JSON.
+- [x] Independently calculate report and three figures from CSV; inspect renders.
+- [x] Document exact wire format, environment, method and limitations.
+- [x] Obtain independent automated review; fix substantive findings and verify.
 - [ ] Commit artifacts, publish GitHub/GitLab import, issues and PR.
