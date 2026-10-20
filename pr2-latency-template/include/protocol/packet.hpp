@@ -36,8 +36,7 @@ struct PongPayload {
 };
 
 // --- Низкоуровневые помощники сериализации ---
-// Реализуйте в src/protocol.cpp. Не используйте memcpy структуры целиком —
-// порядок байт и выравнивание платформозависимы.
+// Явные операции big-endian; реализации в src/protocol.cpp.
 
 void WriteU16(std::vector<std::uint8_t>& out, std::uint16_t value);
 void WriteU64(std::vector<std::uint8_t>& out, std::uint64_t value);

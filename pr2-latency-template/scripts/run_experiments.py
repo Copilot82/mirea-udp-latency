@@ -2,6 +2,7 @@
 """Run actual UDP processes; deterministic impairments, real monotonic timings."""
 import argparse
 import datetime as dt
+from contextlib import contextmanager
 import json
 import pathlib
 import platform
@@ -16,6 +17,52 @@ PROFILES = ('baseline', 'delay_50', 'delay_100', 'jitter', 'loss_5', 'combined')
 
 def version(command):
     return subprocess.check_output(command, text=True, cwd=ROOT).strip()
+
+
+
+def find_binary(build_dir, name):
+    build_dir = pathlib.Path(build_dir).resolve()
+    if sys.platform == 'win32' and not name.endswith('.exe'):
+        name += '.exe'
+    for folder in (build_dir, build_dir/'Release', build_dir/'Debug'):
+        candidate = folder/name
+        if candidate.is_file():
+            return candidate
+    raise FileNotFoundError(f'missing binary: {name} in {build_dir}')
+
+
+def compiler_description(build_dir):
+    for source in sorted(pathlib.Path(build_dir).glob('CMakeFiles/*/CMakeCXXCompiler.cmake')):
+        text = source.read_text(encoding='utf-8')
+        values = dict(re.findall(r'set\((CMAKE_CXX_COMPILER_(?:ID|VERSION)) "([^"]*)"\)', text))
+        if values.get('CMAKE_CXX_COMPILER_ID') and values.get('CMAKE_CXX_COMPILER_VERSION'):
+            return values['CMAKE_CXX_COMPILER_ID']+' '+values['CMAKE_CXX_COMPILER_VERSION']
+    return 'unknown'
+
+
+@contextmanager
+def running_server(executable, profile, seed, port, log_path, cwd):
+    with pathlib.Path(log_path).open('w') as log:
+        process = subprocess.Popen([str(executable), '127.0.0.1', str(port), profile, str(seed)],
+                                   cwd=cwd, stdout=log, stderr=subprocess.STDOUT)
+        try:
+            deadline = time.monotonic()+5
+            while True:
+                text = pathlib.Path(log_path).read_text()
+                match = re.search(r'READY 127\.0\.0\.1:(\d+)', text)
+                if match:
+                    yield int(match[1])
+                    break
+                if process.poll() is not None or time.monotonic() >= deadline:
+                    raise RuntimeError('server failed to start: '+text)
+                time.sleep(.01)
+        finally:
+            process.terminate()
+            try:
+                process.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait()
 
 
 def main():
@@ -39,16 +86,15 @@ def main():
         p.error('results exist; choose another --output-dir or explicitly use --overwrite')
     logs = output/'logs'
     logs.mkdir(exist_ok=True)
-    suffix = '.exe' if sys.platform == 'win32' else ''
-    server = a.build_dir.resolve()/('server'+suffix)
-    client = a.build_dir.resolve()/('client'+suffix)
-    for executable in (server, client):
-        if not executable.is_file():
-            p.error(f'missing binary: {executable}')
+    try:
+        server = find_binary(a.build_dir, 'server')
+        client = find_binary(a.build_dir, 'client')
+    except FileNotFoundError as exc:
+        p.error(str(exc))
     meta = {
         'os': platform.platform(), 'architecture': platform.machine(),
         'python': platform.python_version(), 'cmake': version(['cmake', '--version']).splitlines()[0],
-        'compiler': version(['c++', '--version']).splitlines()[0],
+        'compiler': compiler_description(a.build_dir),
         'source_commit': version(['git', 'rev-parse', 'HEAD']),
         'started_at': dt.datetime.now().astimezone().isoformat(),
         'server_ip': '127.0.0.1', 'port': a.port,

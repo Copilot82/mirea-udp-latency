@@ -19,3 +19,6 @@ set_tests_properties(udp_integration PROPERTIES TIMEOUT 40)
 add_test(NAME analysis_tests COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_analysis.py)
 
 set_tests_properties(unit_tests analysis_tests PROPERTIES TIMEOUT 30)
+add_test(NAME launcher_demo COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_launcher.py
+    --build-dir $<TARGET_FILE_DIR:client>)
+set_tests_properties(launcher_demo PROPERTIES TIMEOUT 20)

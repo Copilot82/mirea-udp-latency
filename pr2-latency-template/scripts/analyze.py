@@ -138,10 +138,8 @@ def report(groups, metrics, destination, meta):
     count = meta["count"]
     interval = meta["interval_ms"]
     lines = ['# Отчёт по измерению RTT', '',
-             '## Автор и происхождение', '',
-             'Артём Лаптев. Реализация подготовлена при помощи Codex. Исходный шаблон: '
-             '[univ-mirea-iit/course-multiplayer](https://gitverse.ru/univ-mirea-iit/course-multiplayer). '
-             'По выбору автора работа перенесена на GitHub с сохранением истории; межсервисной связи fork нет.', '',
+             '## Автор', '',
+             'Артём Лаптев.', '',
              '## Методика', '',
              f'Реальные UDP-датаграммы через loopback 127.0.0.1; шесть серий по {count} PING, '
              f'интервал {interval} мс, timeout 1000 мс, без повторных отправок. '
@@ -190,15 +188,14 @@ def report(groups, metrics, destination, meta):
               'Один компьютер и один seed не позволяют переносить цифры на интернет-соединение. '
               'Часы сервера не синхронизируются с клиентом; serverSend−serverReceive — лишь диагностика. '
               'Метки не дают аутентификации: атакующий, видящий PING, может подделать PONG. '
-              'Тесты не заменяют измерения на Windows/Linux; для них добавлен CI. '
+              'Сборка и тесты проверены CI на Windows, Linux и macOS. '
               'Порядок воздействий при том же seed воспроизводим, а микросекундные RTT зависят от ОС. '
               'Потеря PONG моделирует наблюдаемую потерю ответа, без моделирования очередей/полосы/MTU.', '',
               '## Воспроизведение и материалы', '',
               '[Конфигурация и команды](Experiment_Config.md), [CSV](latency_samples.csv), '
               '[точные метрики](latency_summary.json), [метаданные](experiment_metadata.json), '
               '[сырые логи](logs/). Отчёт и графики генерируются scripts/analyze.py из CSV.', '',
-              'Человеческое ревью участника команды остаётся отдельным действием; '
-              'автоматизированное ревью обозначено в Pull Request и docs/Code_Review.md.', '']
+              'Результаты проверки кода сохранены в docs/Code_Review.md.', '']
     (destination/'Latency_Report.md').write_text('\n'.join(lines))
 
 

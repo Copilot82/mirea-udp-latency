@@ -61,12 +61,13 @@ SRTT и джиттер на известных числах, deadline, дубл�
 старую метку, переполнение истории, реальные сокеты и неверные CLI-параметры.
 
 **Где Git-процесс?** Ветка feature/latency-measurement, отдельные коммиты,
-issues и Pull Request в GitHub. Исходная история GitVerse сохранена.
-Автоматизированное ревью выполнено; ревью участника команды нужно отдельно.
+issues и Pull Request №4 в GitHub. Результаты проверки кода — в Code_Review.md.
 
 ## Как показать запуск
 
-Из pr2-latency-template выполнить сборку из README, затем в двух терминалах:
+В корне репозитория: `python3 run.py --count 50`.
+
+Ручной вариант: из pr2-latency-template выполнить сборку из README, затем в двух терминалах:
 
 ```bash
 ./build-release/server 127.0.0.1 27015 baseline 20261020

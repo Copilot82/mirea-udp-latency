@@ -53,6 +53,29 @@ class AnalysisTests(unittest.TestCase):
             self.assertNotEqual(result.returncode,0)
             self.assertEqual(path.read_text(),'previous measurements')
 
+
+    def test_experiment_finds_multiconfiguration_binaries(self):
+        spec=importlib.util.spec_from_file_location('runner',pathlib.Path(__file__).resolve().parents[1]/'scripts/run_experiments.py')
+        runner=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        with tempfile.TemporaryDirectory() as temp:
+            root=pathlib.Path(temp)
+            (root/'Release').mkdir()
+            executable=root/'Release'/'client.exe'
+            executable.write_bytes(b'fixture')
+            self.assertTrue(runner.find_binary(root,'client.exe').samefile(executable))
+
+    def test_compiler_metadata_comes_from_cmake_without_running_cxx(self):
+        spec=importlib.util.spec_from_file_location('runner',pathlib.Path(__file__).resolve().parents[1]/'scripts/run_experiments.py')
+        runner=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(runner)
+        with tempfile.TemporaryDirectory() as temp:
+            root=pathlib.Path(temp)
+            folder=root/'CMakeFiles'/'4.2.1'
+            folder.mkdir(parents=True)
+            (folder/'CMakeCXXCompiler.cmake').write_text('set(CMAKE_CXX_COMPILER_ID "MSVC")\nset(CMAKE_CXX_COMPILER_VERSION "19.44")\n')
+            self.assertEqual(runner.compiler_description(root),'MSVC 19.44')
+
     def test_no_success_has_missing_latency_and_complete_loss(self):
         result=analyze.calculate([row(1,'timeout')])
         self.assertEqual(result['loss_percent'],100)
