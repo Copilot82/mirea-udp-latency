@@ -1,0 +1,102 @@
+READY 127.0.0.1:27015 profile=jitter seed=20261020 emulator=1
+ping sequence=0 peer=127.0.0.1:62529 drop=0 delay_us=127000
+pong sequence=0 received_us=1430176878 sent_us=1430304575
+ping sequence=1 peer=127.0.0.1:62529 drop=0 delay_us=70000
+pong sequence=1 received_us=1430376803 sent_us=1430451812
+ping sequence=2 peer=127.0.0.1:62529 drop=0 delay_us=70000
+pong sequence=2 received_us=1430576974 sent_us=1430651835
+ping sequence=3 peer=127.0.0.1:62529 drop=0 delay_us=144000
+pong sequence=3 received_us=1430776996 sent_us=1430922705
+ping sequence=4 peer=127.0.0.1:62529 drop=0 delay_us=109000
+pong sequence=4 received_us=1430978531 sent_us=1431091247
+ping sequence=5 peer=127.0.0.1:62529 drop=0 delay_us=67000
+pong sequence=5 received_us=1431176809 sent_us=1431248062
+ping sequence=6 peer=127.0.0.1:62529 drop=0 delay_us=124000
+pong sequence=6 received_us=1431377961 sent_us=1431503112
+ping sequence=7 peer=127.0.0.1:62529 drop=0 delay_us=59000
+pong sequence=7 received_us=1431576954 sent_us=1431638199
+ping sequence=8 peer=127.0.0.1:62529 drop=0 delay_us=101000
+pong sequence=8 received_us=1431778876 sent_us=1431880927
+ping sequence=9 peer=127.0.0.1:62529 drop=0 delay_us=57000
+pong sequence=9 received_us=1431976914 sent_us=1432036436
+ping sequence=10 peer=127.0.0.1:62529 drop=0 delay_us=139000
+pong sequence=10 received_us=1432176953 sent_us=1432320927
+ping sequence=11 peer=127.0.0.1:62529 drop=0 delay_us=65000
+pong sequence=11 received_us=1432378617 sent_us=1432448014
+ping sequence=12 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=12 received_us=1432577821 sent_us=1432722697
+ping sequence=13 peer=127.0.0.1:62529 drop=0 delay_us=67000
+pong sequence=13 received_us=1432777800 sent_us=1432849387
+ping sequence=14 peer=127.0.0.1:62529 drop=0 delay_us=105000
+pong sequence=14 received_us=1432978459 sent_us=1433084805
+ping sequence=15 peer=127.0.0.1:62529 drop=0 delay_us=107000
+pong sequence=15 received_us=1433177922 sent_us=1433286684
+ping sequence=16 peer=127.0.0.1:62529 drop=0 delay_us=133000
+pong sequence=16 received_us=1433378811 sent_us=1433514350
+ping sequence=17 peer=127.0.0.1:62529 drop=0 delay_us=142000
+pong sequence=17 received_us=1433576908 sent_us=1433720053
+ping sequence=18 peer=127.0.0.1:62529 drop=0 delay_us=81000
+pong sequence=18 received_us=1433779221 sent_us=1433862309
+ping sequence=19 peer=127.0.0.1:62529 drop=0 delay_us=124000
+pong sequence=19 received_us=1433977495 sent_us=1434103190
+ping sequence=20 peer=127.0.0.1:62529 drop=0 delay_us=90000
+pong sequence=20 received_us=1434177837 sent_us=1434271582
+ping sequence=21 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=21 received_us=1434378638 sent_us=1434523286
+ping sequence=22 peer=127.0.0.1:62529 drop=0 delay_us=90000
+pong sequence=22 received_us=1434578692 sent_us=1434673061
+ping sequence=23 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=23 received_us=1434777822 sent_us=1434918133
+ping sequence=24 peer=127.0.0.1:62529 drop=0 delay_us=93000
+pong sequence=24 received_us=1434978918 sent_us=1435072909
+ping sequence=25 peer=127.0.0.1:62529 drop=0 delay_us=72000
+pong sequence=25 received_us=1435177825 sent_us=1435251094
+ping sequence=26 peer=127.0.0.1:62529 drop=0 delay_us=132000
+pong sequence=26 received_us=1435378323 sent_us=1435510728
+ping sequence=27 peer=127.0.0.1:62529 drop=0 delay_us=131000
+pong sequence=27 received_us=1435577810 sent_us=1435711597
+ping sequence=28 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=28 received_us=1435777573 sent_us=1435917729
+ping sequence=29 peer=127.0.0.1:62529 drop=0 delay_us=138000
+pong sequence=29 received_us=1435976909 sent_us=1436119732
+ping sequence=30 peer=127.0.0.1:62529 drop=0 delay_us=104000
+pong sequence=30 received_us=1436178528 sent_us=1436284999
+ping sequence=31 peer=127.0.0.1:62529 drop=0 delay_us=121000
+pong sequence=31 received_us=1436377825 sent_us=1436499118
+ping sequence=32 peer=127.0.0.1:62529 drop=0 delay_us=146000
+pong sequence=32 received_us=1436577813 sent_us=1436724147
+ping sequence=33 peer=127.0.0.1:62529 drop=0 delay_us=112000
+pong sequence=33 received_us=1436777806 sent_us=1436891136
+ping sequence=34 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=34 received_us=1436976999 sent_us=1437121834
+ping sequence=35 peer=127.0.0.1:62529 drop=0 delay_us=142000
+pong sequence=35 received_us=1437178624 sent_us=1437324376
+ping sequence=36 peer=127.0.0.1:62529 drop=0 delay_us=87000
+pong sequence=36 received_us=1437377395 sent_us=1437464870
+ping sequence=37 peer=127.0.0.1:62529 drop=0 delay_us=60000
+pong sequence=37 received_us=1437577753 sent_us=1437640253
+ping sequence=38 peer=127.0.0.1:62529 drop=0 delay_us=115000
+pong sequence=38 received_us=1437777825 sent_us=1437897684
+ping sequence=39 peer=127.0.0.1:62529 drop=0 delay_us=113000
+pong sequence=39 received_us=1437977971 sent_us=1438095551
+ping sequence=40 peer=127.0.0.1:62529 drop=0 delay_us=111000
+pong sequence=40 received_us=1438178941 sent_us=1438293335
+ping sequence=41 peer=127.0.0.1:62529 drop=0 delay_us=105000
+pong sequence=41 received_us=1438378544 sent_us=1438486264
+ping sequence=42 peer=127.0.0.1:62529 drop=0 delay_us=141000
+pong sequence=42 received_us=1438577536 sent_us=1438722690
+ping sequence=43 peer=127.0.0.1:62529 drop=0 delay_us=67000
+pong sequence=43 received_us=1438777824 sent_us=1438847681
+ping sequence=44 peer=127.0.0.1:62529 drop=0 delay_us=83000
+pong sequence=44 received_us=1438978397 sent_us=1439062505
+ping sequence=45 peer=127.0.0.1:62529 drop=0 delay_us=131000
+pong sequence=45 received_us=1439177804 sent_us=1439309368
+ping sequence=46 peer=127.0.0.1:62529 drop=0 delay_us=140000
+pong sequence=46 received_us=1439378000 sent_us=1439519405
+ping sequence=47 peer=127.0.0.1:62529 drop=0 delay_us=51000
+pong sequence=47 received_us=1439578594 sent_us=1439629929
+ping sequence=48 peer=127.0.0.1:62529 drop=0 delay_us=110000
+pong sequence=48 received_us=1439777813 sent_us=1439889395
+ping sequence=49 peer=127.0.0.1:62529 drop=0 delay_us=130000
+pong sequence=49 received_us=1439976867 sent_us=1440109413
+STOP queued=0
