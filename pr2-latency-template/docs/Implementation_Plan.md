@@ -48,4 +48,4 @@ Files: scripts/run_experiments.py, scripts/analyze.py, README.md, docs/*.
 - [x] Independently calculate report and three figures from CSV; inspect renders.
 - [x] Document exact wire format, environment, method and limitations.
 - [x] Obtain independent automated review; fix substantive findings and verify.
-- [ ] Commit artifacts, publish GitHub/GitLab import, issues and PR.
+- [x] Commit artifacts, publish GitHub/GitLab import, issues and PR.

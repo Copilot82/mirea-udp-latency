@@ -14,3 +14,4 @@
 - Final Debug/Release/UBSan: all 3 CTest targets passed (17 Catch2 scenarios/197 assertions, 7 socket scenarios, 5 analysis/preflight tests).
 - Local ASan could not start due to runtime initialization deadlock before main; documented, Linux ASan CI added.
 - Three rendered figures inspected; box plot caption overlap fixed and re-rendered.
+- Published: https://github.com/Copilot82/mirea-udp-latency/tree/feature/latency-measurement; PR #4; human teammate review tracked separately in issue #3.
