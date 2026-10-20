@@ -154,3 +154,15 @@ TEST_CASE("Invalid configurations and backward sends are rejected") {
     CHECK_THROWS_AS(t.OnPingSent(2, 9), std::invalid_argument);
     CHECK(t.Summary().sent == 1);
 }
+
+TEST_CASE("Evicted sequence cannot reuse the same timestamp") {
+    Telemetry t(1'000'000, 1);
+    t.OnPingSent(1, 1000);
+    REQUIRE(t.OnPong(1, 1000, 1000) == ResponseStatus::Received);
+    CHECK_THROWS_AS(t.OnPingSent(2, 1000), std::invalid_argument);
+    t.OnPingSent(2, 1001);
+    REQUIRE(t.OnPong(2, 1001, 1001) == ResponseStatus::Received);
+    t.OnPingSent(1, 1002);
+    CHECK(t.OnPong(1, 1000, 1003) == ResponseStatus::Invalid);
+    CHECK(t.PendingCount() == 1);
+}

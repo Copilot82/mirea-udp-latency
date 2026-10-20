@@ -26,8 +26,8 @@ Telemetry::Telemetry(std::uint64_t timeoutUs, std::size_t maxRecords, std::strin
 }
 
 void Telemetry::OnPingSent(std::uint16_t seq, std::uint64_t nowUs) {
-    if (lastSentUs_ && nowUs < *lastSentUs_)
-        throw std::invalid_argument("send time moved backward");
+    if (lastSentUs_ && nowUs <= *lastSentUs_)
+        throw std::invalid_argument("send timestamps must increase strictly");
     const auto found = records_.find(seq);
     if (found != records_.end()) {
         if (found->second.status == ResponseStatus::Pending)

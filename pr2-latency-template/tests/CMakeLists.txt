@@ -17,3 +17,5 @@ add_test(NAME udp_integration COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOUR
     --server $<TARGET_FILE:server> --client $<TARGET_FILE:client>)
 set_tests_properties(udp_integration PROPERTIES TIMEOUT 40)
 add_test(NAME analysis_tests COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_analysis.py)
+
+set_tests_properties(unit_tests analysis_tests PROPERTIES TIMEOUT 30)

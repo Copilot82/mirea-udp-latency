@@ -1,5 +1,8 @@
 import importlib.util
 import pathlib
+import subprocess
+import sys
+import tempfile
 import unittest
 
 spec = importlib.util.spec_from_file_location('analyze', pathlib.Path(__file__).resolve().parents[1]/'scripts/analyze.py')
@@ -38,6 +41,17 @@ class AnalysisTests(unittest.TestCase):
                        row(1,'received',10,10,observed=20),
                        row(1,'received','nan',10,observed=10)]:
             with self.assertRaises(ValueError): analyze.calculate([broken])
+
+    def test_runner_preflight_failure_preserves_existing_measurements(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path=pathlib.Path(directory)/'latency_samples.csv'
+            path.write_text('previous measurements')
+            script=pathlib.Path(__file__).resolve().parents[1]/'scripts/run_experiments.py'
+            result=subprocess.run([sys.executable,str(script),'--output-dir',directory,
+                                   '--build-dir',str(pathlib.Path(directory)/'missing'),'--overwrite'],
+                                  capture_output=True)
+            self.assertNotEqual(result.returncode,0)
+            self.assertEqual(path.read_text(),'previous measurements')
 
     def test_no_success_has_missing_latency_and_complete_loss(self):
         result=analyze.calculate([row(1,'timeout')])

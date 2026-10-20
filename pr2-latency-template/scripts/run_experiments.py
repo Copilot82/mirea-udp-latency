@@ -37,7 +37,6 @@ def main():
     csv_path = output/'latency_samples.csv'
     if csv_path.exists() and not a.overwrite:
         p.error('results exist; choose another --output-dir or explicitly use --overwrite')
-    csv_path.unlink(missing_ok=True)
     logs = output/'logs'
     logs.mkdir(exist_ok=True)
     suffix = '.exe' if sys.platform == 'win32' else ''
@@ -56,6 +55,8 @@ def main():
         'count': a.count, 'interval_ms': a.interval_ms, 'timeout_ms': 1000,
         'grace_ms': 200, 'seed': a.seed, 'emulator_version': 1, 'series': [],
     }
+    # All argument, binary and environment checks succeeded before replacing data.
+    csv_path.unlink(missing_ok=True)
     for profile in PROFILES:
         print(f'{profile}: running {a.count} live PINGs', flush=True)
         started = dt.datetime.now().astimezone().isoformat()

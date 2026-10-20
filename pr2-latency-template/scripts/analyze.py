@@ -129,20 +129,22 @@ def charts(groups, metrics, destination):
     ax.set_ylabel('RTT (ms)')
     ax.set_title('RTT distribution: baseline, jitter and combined', loc='left')
     ax.grid(axis='y', color='#DFE4E8', linewidth=.6)
-    fig.text(.5,.01,'Box: Q1–Q3; line: median; whiskers: within 1.5 × IQR; points: outliers. Timeouts excluded.',ha='center',fontsize=8)
+    fig.supxlabel('Box: Q1–Q3; line: median; whiskers: within 1.5 × IQR; points: outliers.\nTimeouts excluded.', fontsize=8)
     fig.savefig(destination/'rtt_distribution.png',dpi=160,bbox_inches='tight')
     plt.close(fig)
 
 
-def report(groups, metrics, destination):
+def report(groups, metrics, destination, meta):
+    count = meta["count"]
+    interval = meta["interval_ms"]
     lines = ['# Отчёт по измерению RTT', '',
              '## Автор и происхождение', '',
              'Артём Лаптев. Реализация подготовлена при помощи Codex. Исходный шаблон: '
              '[univ-mirea-iit/course-multiplayer](https://gitverse.ru/univ-mirea-iit/course-multiplayer). '
              'По выбору автора работа перенесена на GitHub с сохранением истории; межсервисной связи fork нет.', '',
              '## Методика', '',
-             'Реальные UDP-датаграммы через loopback 127.0.0.1; шесть серий по 50 PING, '
-             'интервал 200 мс, timeout 1000 мс, без повторных отправок. '
+             f'Реальные UDP-датаграммы через loopback 127.0.0.1; шесть серий по {count} PING, '
+             f'интервал {interval} мс, timeout 1000 мс, без повторных отправок. '
              'Задержка/джиттер и потеря PONG вводятся встроенным серверным эмулятором v1. '
              'Это дополнительная задержка обработки/ответа в одном направлении, '
              'поэтому delay_50 добавляет около 50 мс к RTT. Это не симуляция физического канала.', '',
@@ -172,10 +174,10 @@ def report(groups, metrics, destination):
     lines += ['', f"Для jitter измеренный джиттер равен {metrics['jitter']['jitter_ms']:.3f} мс, "
               f"для combined — {metrics['combined']['jitter_ms']:.3f} мс. "
               'SRTT сглаживает колебания; последнее значение не обязано совпадать со средним всей серии.', '',
-              f"При настроенной вероятности потери 5% получено {metrics['loss_5']['timeouts']}/50 "
+              f"При настроенной вероятности потери 5% получено {metrics['loss_5']['timeouts']}/{count} "
               f"тайм-аутов ({metrics['loss_5']['loss_percent']:.1f}%) в loss_5 и "
-              f"{metrics['combined']['timeouts']}/50 ({metrics['combined']['loss_percent']:.1f}%) в combined. "
-              'При 50 пакетах доля меняется шагом 2 п.п.; номинальные 5% — вероятность каждого '
+              f"{metrics['combined']['timeouts']}/{count} ({metrics['combined']['loss_percent']:.1f}%) в combined. "
+              f'При {count} пакетах доля меняется шагом {100/count:g} п.п.; номинальные 5% — вероятность каждого '
               'события, а не требование получить ровно 5%. Loss и delay используют отдельные '
               'генераторы, поэтому при одинаковом seed loss_5 и combined теряют одни номера.', '',
               '## Проверки и ограничения', '',
@@ -215,7 +217,10 @@ def main():
         if m['sent'] < 50: raise ValueError(f'{p}: fewer than 50 samples')
     (a.docs_dir/'latency_summary.json').write_text(json.dumps(metrics,indent=2)+'\n')
     charts(groups,metrics,a.docs_dir/'graphs')
-    report(groups,metrics,a.docs_dir)
+    meta=json.loads((a.docs_dir/'experiment_metadata.json').read_text())
+    if any(m['sent'] != meta['count'] for m in metrics.values()):
+        raise ValueError('sample count differs from experiment metadata')
+    report(groups,metrics,a.docs_dir,meta)
     for p,m in metrics.items(): print(f"{p}: mean={m['mean_ms']:.3f}ms jitter={m['jitter_ms']:.3f}ms loss={m['loss_percent']:.1f}%")
 
 
