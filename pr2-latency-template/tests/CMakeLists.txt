@@ -1,8 +1,11 @@
+if(POLICY CMP0135)
+    cmake_policy(SET CMP0135 NEW)
+endif()
 include(FetchContent)
 FetchContent_Declare(
     catch2
-    GIT_REPOSITORY https://github.com/catchorg/Catch2.git
-    GIT_TAG v3.5.2
+    URL https://codeload.github.com/catchorg/Catch2/tar.gz/refs/tags/v3.5.2
+    URL_HASH SHA256=269543a49eb76f40b3f93ff231d4c24c27a7e16c90e47d2e45bcc564de470c6e
 )
 FetchContent_MakeAvailable(catch2)
 

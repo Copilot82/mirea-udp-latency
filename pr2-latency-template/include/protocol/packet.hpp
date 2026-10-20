@@ -1,4 +1,5 @@
 #pragma once
+#include <cstddef>
 #include <cstdint>
 #include <optional>
 #include <vector>
@@ -46,11 +47,9 @@ std::optional<std::uint64_t> ReadU64(const std::uint8_t*& cursor, const std::uin
 
 // --- PING ---
 
-// TODO(student): реализовать сериализацию PING в бинарный буфер.
 // Ожидаемый размер результата: 7 (заголовок) + 8 (payload) = 15 байт.
 std::vector<std::uint8_t> SerializePing(std::uint16_t sequenceNumber, std::uint64_t clientSendTimeUs);
 
-// TODO(student): реализовать разбор PING с полной валидацией:
 // - совпадение типа пакета,
 // - совпадение protocolVersion,
 // - совпадение payloadSize фактическому размеру данных,
@@ -61,8 +60,11 @@ std::optional<PingPayload> ParsePing(const std::uint8_t* data, std::size_t size,
 
 // --- PONG ---
 
-// TODO(student): реализовать сериализацию PONG (аналогично PING, но с тремя полями uint64_t).
 std::vector<std::uint8_t> SerializePong(std::uint16_t sequenceNumber, const PongPayload& payload);
 
-// TODO(student): реализовать разбор PONG с той же логикой валидации, что и ParsePing.
 std::optional<PongPayload> ParsePong(const std::uint8_t* data, std::size_t size, PacketHeader& outHeader);
+
+// Validates the complete datagram, including type-specific payload size.
+std::optional<PacketHeader> ParseHeader(const std::uint8_t* data, std::size_t size);
+// Returns nullptr on success, otherwise a stable diagnostic reason.
+const char* PacketError(const std::uint8_t* data, std::size_t size);
