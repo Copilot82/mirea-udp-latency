@@ -4,7 +4,7 @@
 
 TEST_CASE("PING is exactly the big endian wire fixture") {
     const std::vector<std::uint8_t> expected{
-        1, 0x12, 0x34, 0, 8, 0, 1, 1, 2, 3, 4, 5, 6, 7, 8};
+        1, 0x12, 0x34, 0, 8, 0, 2, 0, 1, 2, 3, 4, 5, 6, 7, 8};
     REQUIRE(SerializePing(0x1234, 0x0102030405060708ULL) == expected);
     PacketHeader h{};
     auto p = ParsePing(expected.data(), expected.size(), h);
@@ -16,7 +16,7 @@ TEST_CASE("PING is exactly the big endian wire fixture") {
 
 TEST_CASE("PONG preserves all fields without platform padding") {
     const std::vector<std::uint8_t> expected{
-        2, 0xff, 0xff, 0, 24, 0, 1,
+        2, 0xff, 0xff, 0, 24, 0, 2, 0,
         0, 0, 0, 0, 0, 0, 0, 7,
         0, 0, 0, 0, 0, 0, 0, 8,
         0, 0, 0, 0, 0, 0, 0, 9};
@@ -33,8 +33,8 @@ TEST_CASE("PONG preserves all fields without platform padding") {
 TEST_CASE("Every truncated prefix is rejected without modifying the output header") {
     const auto ping = SerializePing(1, 123);
     const auto pong = SerializePong(1, {123, 234, 345});
-    REQUIRE(ping.size() == 15);
-    REQUIRE(pong.size() == 31);
+    REQUIRE(ping.size() == 16);
+    REQUIRE(pong.size() == 32);
     for (std::size_t n = 0; n < ping.size(); ++n) {
         PacketHeader h{PacketType::Shoot, 777, 0, 1};
         CHECK_FALSE(ParsePing(ping.data(), n, h));
@@ -50,7 +50,7 @@ TEST_CASE("Wrong type version length and trailing bytes are rejected") {
     for (bool isPong : {false, true}) {
         const auto valid = isPong ? SerializePong(1, {2, 3, 4}) : SerializePing(1, 2);
         REQUIRE_FALSE(valid.empty());
-        for (std::size_t field : {0u, 3u, 4u, 5u, 6u}) {
+        for (std::size_t field : {0u, 3u, 4u, 5u, 6u, 7u}) {
             auto bytes = valid;
             bytes[field] = 255;
             PacketHeader h{};

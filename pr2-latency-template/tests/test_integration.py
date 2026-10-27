@@ -22,11 +22,11 @@ SERVER, CLIENT = args.server, args.client
 
 
 def ping(seq=7, sent=123):
-    return struct.pack('!BHHHQ', 1, seq, 8, 1, sent)
+    return struct.pack('!BHHHBQ', 1, seq, 8, 2, 0, sent)
 
 
 def pong(seq, sent, received=9000000000, replied=9000000001):
-    return struct.pack('!BHHHQQQ', 2, seq, 24, 1, sent, received, replied)
+    return struct.pack('!BHHHBQQQ', 2, seq, 24, 2, 0, sent, received, replied)
 
 
 @contextmanager
@@ -74,7 +74,7 @@ class UdpIntegration(unittest.TestCase):
         with server() as (port, log), socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.settimeout(0.05)
             for data in [b'', b'\x01', ping()[:-1], ping()+b'x',
-                         bytes([255])+ping()[1:], ping()[:6]+b'\x02'+ping()[7:],
+                         bytes([255])+ping()[1:], ping()[:6]+b'\x03'+ping()[7:],
                          ping()[:4]+b'\x09'+ping()[5:], b'\xff'*8192]:
                 sock.sendto(data, ('127.0.0.1', port))
                 with self.assertRaises(socket.timeout):
@@ -82,10 +82,10 @@ class UdpIntegration(unittest.TestCase):
             sock.sendto(ping(65535, 0x0102030405060708), ('127.0.0.1', port))
             sock.settimeout(1)
             reply, _ = sock.recvfrom(65536)
-            self.assertEqual(len(reply), 31)
-            fields = struct.unpack('!BHHHQQQ', reply)
-            self.assertEqual(fields[:5], (2, 65535, 24, 1, 0x0102030405060708))
-            self.assertGreaterEqual(fields[6], fields[5])
+            self.assertEqual(len(reply), 32)
+            fields = struct.unpack('!BHHHBQQQ', reply)
+            self.assertEqual(fields[:6], (2, 65535, 24, 2, 0, 0x0102030405060708))
+            self.assertGreaterEqual(fields[7], fields[6])
             self.assertIn('invalid_packet', log.read_text())
 
     def test_loopback_has_exactly_one_terminal_row_per_ping(self):
@@ -114,7 +114,7 @@ class UdpIntegration(unittest.TestCase):
             def respond():
                 try:
                     data, addr = peer.recvfrom(1024)
-                    _, seq, _, _, sent = struct.unpack('!BHHHQ', data)
+                    _, seq, _, _, _, sent = struct.unpack('!BHHHBQ', data)
                     with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as foreign:
                         foreign.sendto(pong(seq, sent), addr)
                     peer.sendto(b'bad', addr)
@@ -144,7 +144,7 @@ class UdpIntegration(unittest.TestCase):
             peer.settimeout(3)
             def respond():
                 data, addr = peer.recvfrom(1024)
-                _, seq, _, _, sent = struct.unpack('!BHHHQ', data)
+                _, seq, _, _, _, sent = struct.unpack('!BHHHBQ', data)
                 time.sleep(0.12)
                 peer.sendto(pong(seq, sent), addr)
                 peer.sendto(pong(seq, sent), addr)
