@@ -1,0 +1,128 @@
+READY 127.0.0.1:55637 profile=loss_20
+ack sequence=0 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=0 shots=1
+ack sequence=1 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=1 shots=2
+drop_shoot sequence=2
+ack sequence=3 drop=1 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=3 shots=3
+drop_shoot sequence=4
+ack sequence=5 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=5 shots=4
+ack sequence=6 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=6 shots=5
+ack sequence=2 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=2 shots=6
+ack sequence=7 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=7 shots=7
+ack sequence=3 drop=0 delay_us=0
+duplicate_shoot sequence=3
+ack sequence=8 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=8 shots=8
+ack sequence=4 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=4 shots=9
+ack sequence=9 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=9 shots=10
+ack sequence=10 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=10 shots=11
+ack sequence=11 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=11 shots=12
+drop_shoot sequence=12
+ack sequence=13 drop=1 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=13 shots=13
+ack sequence=14 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=14 shots=14
+ack sequence=15 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=15 shots=15
+ack sequence=16 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=16 shots=16
+ack sequence=12 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=12 shots=17
+ack sequence=17 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=17 shots=18
+ack sequence=13 drop=0 delay_us=0
+duplicate_shoot sequence=13
+ack sequence=18 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=18 shots=19
+ack sequence=19 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=19 shots=20
+ack sequence=20 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=20 shots=21
+ack sequence=21 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=21 shots=22
+drop_shoot sequence=22
+ack sequence=23 drop=1 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=23 shots=23
+drop_shoot sequence=24
+ack sequence=25 drop=1 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=25 shots=24
+ack sequence=26 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=26 shots=25
+ack sequence=22 drop=1 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=22 shots=26
+drop_shoot sequence=27
+drop_shoot sequence=23
+drop_shoot sequence=28
+ack sequence=24 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=24 shots=27
+ack sequence=29 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=29 shots=28
+ack sequence=25 drop=0 delay_us=0
+duplicate_shoot sequence=25
+ack sequence=30 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=30 shots=29
+ack sequence=31 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=31 shots=30
+ack sequence=22 drop=0 delay_us=0
+duplicate_shoot sequence=22
+ack sequence=27 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=27 shots=31
+drop_shoot sequence=32
+ack sequence=23 drop=0 delay_us=0
+duplicate_shoot sequence=23
+ack sequence=28 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=28 shots=32
+ack sequence=33 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=33 shots=33
+ack sequence=34 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=34 shots=34
+drop_shoot sequence=35
+ack sequence=36 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=36 shots=35
+ack sequence=32 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=32 shots=36
+drop_shoot sequence=37
+drop_shoot sequence=38
+ack sequence=39 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=39 shots=37
+drop_shoot sequence=35
+ack sequence=40 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=40 shots=38
+ack sequence=41 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=41 shots=39
+ack sequence=37 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=37 shots=40
+ack sequence=42 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=42 shots=41
+ack sequence=38 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=38 shots=42
+ack sequence=43 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=43 shots=43
+drop_shoot sequence=44
+drop_shoot sequence=35
+ack sequence=45 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=45 shots=44
+ack sequence=46 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=46 shots=45
+ack sequence=47 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=47 shots=46
+ack sequence=48 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=48 shots=47
+drop_shoot sequence=44
+ack sequence=49 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=49 shots=48
+drop_shoot sequence=35
+ack sequence=44 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=44 shots=49
+ack sequence=35 drop=0 delay_us=0
+shoot_applied peer=127.0.0.1:63053 sequence=35 shots=50

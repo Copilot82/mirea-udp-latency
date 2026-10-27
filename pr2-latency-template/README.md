@@ -1,3 +1,9 @@
+# ПР3: надёжная доставка
+
+Из корня репозитория: `python3 run3.py`.
+[Отчёт, формулы и объяснение для защиты](docs/Reliability_Protocol.md).
+Модуль `reliability` добавлен к общим `protocol`, `telemetry` и `transport`.
+
 # ПР №2: телеметрия UDP
 
 C++17 UDP-клиент/сервер: PING/PONG, RTT/SRTT, джиттер, потери,

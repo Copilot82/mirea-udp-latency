@@ -25,3 +25,5 @@ set_tests_properties(launcher_demo PROPERTIES TIMEOUT 20)
 add_test(NAME reliability_udp COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_reliability_udp.py
     --server $<TARGET_FILE:reliable_server> --client $<TARGET_FILE:reliable_client>)
 set_tests_properties(reliability_udp PROPERTIES TIMEOUT 40)
+add_test(NAME reliability_analysis COMMAND ${Python3_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/test_reliability_analysis.py)
+set_tests_properties(reliability_analysis PROPERTIES TIMEOUT 10)

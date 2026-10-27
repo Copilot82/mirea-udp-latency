@@ -1,0 +1,15 @@
+{
+  "started_at": "2026-10-27T05:34:15.620509-07:00",
+  "os": "macOS-26.4.1-arm64-arm-64bit",
+  "compiler": "AppleClang 17.0.0.17000603",
+  "source_commit": "7c26f731717c49ebbc6c609f8257df0b8ac2f8a5",
+  "count": 50,
+  "interval_ms": 20,
+  "seed": 20261027,
+  "max_attempts": 5,
+  "binary_sha256": {
+    "reliable_server": "a57028bfa8ee2b39aac7ba8c09098b9a6c123ec72616c579438fb21a0d67589a",
+    "reliable_client": "a56293bc53bbe58dd3af4b24a4b47020390f4533ee4564bc7bc7c7f4e8fc5085"
+  },
+  "finished_at": "2026-10-27T05:34:23.302904-07:00"
+}
