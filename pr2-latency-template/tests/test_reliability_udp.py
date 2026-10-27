@@ -1,6 +1,7 @@
 """Проверки настоящих UDP-процессов, без подмены менеджера доставки."""
 import argparse
 import csv
+import os
 import pathlib
 import socket
 import struct
@@ -144,7 +145,8 @@ class ReliabilityUDP(unittest.TestCase):
             output=pathlib.Path(temp)/'demo.csv'
             result=subprocess.run([sys.executable,str(ROOT/'run3.py'),'--skip-build','--build-dir',
                 str(CLIENT.parent),'--profile','baseline','--count','3','--output',str(output)],
-                capture_output=True,text=True,timeout=10)
+                capture_output=True,text=True,timeout=10,
+                env={**os.environ,'PYTHONIOENCODING':'ascii:strict'})
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             self.assertIn('sent=3 acked=3',result.stdout)
             self.assertEqual(sum(r['event']=='acked' for r in self.rows(output)),3)

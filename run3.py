@@ -38,7 +38,7 @@ def main():
     with running_server(server,a.profile,20261027,0,output.with_suffix('.server.log'),PROJECT) as port:
         result = subprocess.run([str(client),'127.0.0.1',str(port),a.profile,str(a.count),
                                 str(a.interval_ms),str(output),'5'],cwd=PROJECT)
-    print('Журнал доставки: ' + str(output))
+    print('CSV: ' + str(output))
     return result.returncode
 
 
