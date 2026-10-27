@@ -104,12 +104,12 @@ ResponseStatus Telemetry::OnPong(std::uint16_t seq, std::uint64_t echo, std::uin
     }
     const double rtt = double(nowUs - r.sentAtUs) / 1000.0;
     if (!rtts_.empty()) jitterSumMs_ += std::abs(rtt - rtts_.back());
-    srttMs_ = rtts_.empty() ? rtt : 0.875 * srttMs_ + 0.125 * rtt;
+    estimator_.OnSample(rtt);
     rtts_.push_back(rtt);
     ++totals_.received;
     r.status = ResponseStatus::Received;
     r.rttMs = rtt;
-    r.srttMs = srttMs_;
+    r.srttMs = estimator_.SrttMs();
     Emit(ResponseStatus::Received, &r, seq, nowUs);
     return ResponseStatus::Received;
 }
@@ -154,7 +154,14 @@ TelemetrySummary Telemetry::Summary() const {
         s.meanMs = std::accumulate(sorted.begin(), sorted.end(), 0.0) / double(sorted.size());
         const auto n = sorted.size();
         s.medianMs = n % 2 ? sorted[n / 2] : (sorted[n / 2 - 1] + sorted[n / 2]) / 2;
-        s.srttMs = srttMs_;
+        s.srttMs = estimator_.SrttMs();
     }
     return s;
+}
+
+void RttEstimator::OnSample(double rttMs) {
+    if (!std::isfinite(rttMs) || rttMs < 0)
+        throw std::invalid_argument("RTT must be finite and nonnegative");
+    srttMs_ = initialized_ ? 0.875 * srttMs_ + 0.125 * rttMs : rttMs;
+    initialized_ = true;
 }

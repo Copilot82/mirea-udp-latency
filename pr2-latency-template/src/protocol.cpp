@@ -25,13 +25,14 @@ std::optional<std::uint64_t> ReadU64(const std::uint8_t*& cursor, const std::uin
 }
 
 const char* PacketError(const std::uint8_t* data, std::size_t size) {
-    if (!data || size < 7) return "short_header";
+    if (!data || size < kHeaderSize) return "short_header";
     std::uint16_t expected = 0;
     switch (static_cast<PacketType>(data[0])) {
         case PacketType::Ping: expected = 8; break;
         case PacketType::Pong: expected = 24; break;
         case PacketType::Movement: expected = 8; break;
         case PacketType::Shoot: expected = 0; break;
+        case PacketType::Ack: expected = 2; break;
         default: return "unknown_type";
     }
     const auto* cursor = data + 1;
@@ -40,7 +41,9 @@ const char* PacketError(const std::uint8_t* data, std::size_t size) {
     const auto length = *ReadU16(cursor, end);
     const auto version = *ReadU16(cursor, end);
     if (version != kProtocolVersion) return "unsupported_version";
-    if (length != expected || size != std::size_t(length) + 7) return "payload_size_mismatch";
+    if (length != expected || size != std::size_t(length) + kHeaderSize) return "payload_size_mismatch";
+    if (data[7] != (data[0] == static_cast<std::uint8_t>(PacketType::Shoot) ? 1 : 0))
+        return "invalid_requires_ack";
     return nullptr;
 }
 
@@ -51,17 +54,18 @@ std::optional<PacketHeader> ParseHeader(const std::uint8_t* data, std::size_t si
     const auto seq = *ReadU16(cursor, end);
     const auto length = *ReadU16(cursor, end);
     const auto version = *ReadU16(cursor, end);
-    return PacketHeader{static_cast<PacketType>(data[0]), seq, length, version};
+    return PacketHeader{static_cast<PacketType>(data[0]), seq, length, version, data[7]};
 }
 
 namespace {
 std::vector<std::uint8_t> Header(PacketType type, std::uint16_t seq, std::uint16_t length) {
     std::vector<std::uint8_t> out;
-    out.reserve(7 + length);
+    out.reserve(kHeaderSize + length);
     out.push_back(static_cast<std::uint8_t>(type));
     WriteU16(out, seq);
     WriteU16(out, length);
     WriteU16(out, kProtocolVersion);
+    out.push_back(type == PacketType::Shoot ? 1 : 0);
     return out;
 }
 }
@@ -75,7 +79,7 @@ std::vector<std::uint8_t> SerializePing(std::uint16_t seq, std::uint64_t sent) {
 std::optional<PingPayload> ParsePing(const std::uint8_t* data, std::size_t size, PacketHeader& outHeader) {
     const auto h = ParseHeader(data, size);
     if (!h || h->type != PacketType::Ping) return std::nullopt;
-    const auto* cursor = data + 7;
+    const auto* cursor = data + kHeaderSize;
     const auto sent = ReadU64(cursor, data + size);
     if (!sent) return std::nullopt;
     outHeader = *h;
@@ -93,7 +97,7 @@ std::vector<std::uint8_t> SerializePong(std::uint16_t seq, const PongPayload& p)
 std::optional<PongPayload> ParsePong(const std::uint8_t* data, std::size_t size, PacketHeader& outHeader) {
     const auto h = ParseHeader(data, size);
     if (!h || h->type != PacketType::Pong) return std::nullopt;
-    const auto* cursor = data + 7;
+    const auto* cursor = data + kHeaderSize;
     const auto* end = data + size;
     const auto sent = ReadU64(cursor, end);
     const auto received = ReadU64(cursor, end);
@@ -101,4 +105,22 @@ std::optional<PongPayload> ParsePong(const std::uint8_t* data, std::size_t size,
     if (!sent || !received || !replied || *replied < *received) return std::nullopt;
     outHeader = *h;
     return PongPayload{*sent, *received, *replied};
+}
+
+std::vector<std::uint8_t> SerializeShoot(std::uint16_t seq) {
+    return Header(PacketType::Shoot, seq, 0);
+}
+std::vector<std::uint8_t> SerializeAck(std::uint16_t seq, std::uint16_t acknowledged) {
+    auto out = Header(PacketType::Ack, seq, 2);
+    WriteU16(out, acknowledged);
+    return out;
+}
+std::optional<AckPayload> ParseAck(const std::uint8_t* data, std::size_t size, PacketHeader& outHeader) {
+    const auto h = ParseHeader(data, size);
+    if (!h || h->type != PacketType::Ack) return std::nullopt;
+    const auto* cursor = data + kHeaderSize;
+    const auto seq = ReadU16(cursor, data + size);
+    if (!seq) return std::nullopt;
+    outHeader = *h;
+    return AckPayload{*seq};
 }

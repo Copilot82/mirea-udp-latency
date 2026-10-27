@@ -40,6 +40,16 @@ struct TelemetrySummary {
     double jitterMs = 0, lossPercent = 0;
 };
 
+class RttEstimator {
+public:
+    void OnSample(double rttMs);
+    bool Initialized() const { return initialized_; }
+    double SrttMs() const { return srttMs_; }
+private:
+    bool initialized_ = false;
+    double srttMs_ = 0;
+};
+
 class Telemetry {
 public:
     explicit Telemetry(std::uint64_t timeoutUs = 1'000'000,
@@ -55,7 +65,7 @@ public:
     const FlightRecord* FindRecord(std::uint16_t sequence) const;
     std::size_t RecordCount() const { return records_.size(); }
     std::size_t PendingCount() const { return totals_.sent - totals_.received - totals_.timeouts; }
-    double SrttMs() const { return srttMs_; }
+    double SrttMs() const { return estimator_.SrttMs(); }
     double MeanJitterMs() const;
     std::size_t SampleCount() const { return rtts_.size(); }
 
@@ -72,5 +82,6 @@ private:
     std::vector<MeasurementEvent> events_;
     std::vector<double> rtts_;
     TelemetrySummary totals_;
-    double srttMs_ = 0, jitterSumMs_ = 0;
+    RttEstimator estimator_;
+    double jitterSumMs_ = 0;
 };
